@@ -1,0 +1,320 @@
+{
+  "timestamp": "2025-10-02T02:58:55.493999",
+  "overall_success": false,
+  "total_tests": 57,
+  "total_passed": 51,
+  "success_rate": 0.8947368421052632,
+  "test_results": {
+    "System Health Check": {
+      "success": true,
+      "total_tests": 12,
+      "tests_passed": 12,
+      "details": [
+        [
+          "Health endpoint accessible",
+          true
+        ],
+        [
+          "Backend server responding",
+          true
+        ],
+        [
+          "Directory 'data' exists",
+          true
+        ],
+        [
+          "Directory 'backend' exists",
+          true
+        ],
+        [
+          "Directory 'frontend' exists",
+          true
+        ],
+        [
+          "Directory 'deployment' exists",
+          true
+        ],
+        [
+          "File 'backend/main.py' exists",
+          true
+        ],
+        [
+          "File 'backend/models/cp_sat_solver.py' exists",
+          true
+        ],
+        [
+          "File 'backend/models/genetic_optimizer.py' exists",
+          true
+        ],
+        [
+          "File 'backend/models/ml_predictor.py' exists",
+          true
+        ],
+        [
+          "File 'frontend/index.html' exists",
+          true
+        ],
+        [
+          "File 'data/generate_synthetic_data.py' exists",
+          true
+        ]
+      ]
+    },
+    "Data Validation": {
+      "success": true,
+      "total_tests": 5,
+      "tests_passed": 5,
+      "details": [
+        [
+          "Valid CSV data validation",
+          true
+        ],
+        [
+          "Correct number of records processed",
+          true
+        ],
+        [
+          "Invalid data properly rejected",
+          true
+        ],
+        [
+          "Validation errors reported",
+          true
+        ],
+        [
+          "Business rules validation",
+          true
+        ]
+      ],
+      "warnings": []
+    },
+    "Synthetic Data Generation": {
+      "success": true,
+      "total_tests": 8,
+      "tests_passed": 8,
+      "details": [
+        [
+          "Generator initialized",
+          true
+        ],
+        [
+          "Train IDs generated",
+          true
+        ],
+        [
+          "Train status generated",
+          true
+        ],
+        [
+          "Train status has required fields",
+          true
+        ],
+        [
+          "Minimum service capacity met",
+          true
+        ],
+        [
+          "Historical data generated",
+          true
+        ],
+        [
+          "Correct historical data volume",
+          true
+        ],
+        [
+          "Complete dataset structure",
+          true
+        ]
+      ],
+      "warnings": []
+    },
+    "ML Prediction Engine": {
+      "success": true,
+      "total_tests": 8,
+      "tests_passed": 8,
+      "details": [
+        [
+          "ML models loaded",
+          true
+        ],
+        [
+          "Individual prediction generated",
+          true
+        ],
+        [
+          "Prediction has confidence",
+          true
+        ],
+        [
+          "Risk factors identified",
+          true
+        ],
+        [
+          "Delay risk in valid range",
+          true
+        ],
+        [
+          "Maintenance urgency in valid range",
+          true
+        ],
+        [
+          "Batch predictions generated",
+          true
+        ],
+        [
+          "Aggregate metrics computed",
+          true
+        ]
+      ],
+      "warnings": []
+    },
+    "Optimization Algorithm": {
+      "success": false,
+      "total_tests": 1,
+      "tests_passed": 0,
+      "details": [
+        [
+          "Optimization API accessible",
+          false
+        ]
+      ],
+      "warnings": [
+        "Optimization API returned status 422"
+      ]
+    },
+    "API Endpoints": {
+      "success": true,
+      "total_tests": 3,
+      "tests_passed": 3,
+      "details": [
+        [
+          "GET /health",
+          true
+        ],
+        [
+          "GET /optimizations",
+          true
+        ],
+        [
+          "POST /predict",
+          true
+        ]
+      ],
+      "warnings": []
+    },
+    "What-If Simulation": {
+      "success": false,
+      "total_tests": 2,
+      "tests_passed": 0,
+      "details": [
+        [
+          "Base optimization for simulation",
+          false
+        ],
+        [
+          "What-if simulation API",
+          false
+        ]
+      ],
+      "warnings": [
+        "Could not test simulation - base optimization failed"
+      ]
+    },
+    "Performance & Load": {
+      "success": false,
+      "total_tests": 4,
+      "tests_passed": 3,
+      "details": [
+        [
+          "Health check response time",
+          true
+        ],
+        [
+          "Concurrent request handling",
+          true
+        ],
+        [
+          "Large dataset processing",
+          false
+        ],
+        [
+          "Large dataset performance",
+          true
+        ]
+      ],
+      "warnings": []
+    },
+    "Error Handling": {
+      "success": true,
+      "total_tests": 4,
+      "tests_passed": 4,
+      "details": [
+        [
+          "Invalid JSON handling",
+          true
+        ],
+        [
+          "Missing fields validation",
+          true
+        ],
+        [
+          "404 error handling",
+          true
+        ],
+        [
+          "Impossible constraints handling",
+          true
+        ]
+      ],
+      "warnings": []
+    },
+    "Frontend Integration": {
+      "success": false,
+      "total_tests": 10,
+      "tests_passed": 8,
+      "details": [
+        [
+          "Frontend file frontend/index.html exists",
+          true
+        ],
+        [
+          "Frontend file frontend/js/dashboard.js exists",
+          true
+        ],
+        [
+          "Frontend file frontend/css/style.css exists",
+          true
+        ],
+        [
+          "HTML contains <title>",
+          true
+        ],
+        [
+          "HTML contains <body>",
+          false
+        ],
+        [
+          "HTML contains dashboard.js",
+          true
+        ],
+        [
+          "HTML contains style.css",
+          false
+        ],
+        [
+          "JS contains KMRLDashboard",
+          true
+        ],
+        [
+          "JS contains runOptimization",
+          true
+        ],
+        [
+          "JS contains loadTrainData",
+          true
+        ]
+      ],
+      "warnings": []
+    }
+  }
+}

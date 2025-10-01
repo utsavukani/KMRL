@@ -1,0 +1,623 @@
+{
+    "schema_version": "1.0.0",
+    "generated_at": "2024-10-01T19:03:00Z",
+    "description": "Data schema definitions for KMRL train optimization system",
+    "schemas": {
+        "train_status": {
+            "description": "Current operational status of a train",
+            "fields": {
+                "train_id": {
+                    "type": "string",
+                    "format": "KMRL-XXX",
+                    "required": true,
+                    "description": "Unique train identifier",
+                    "example": "KMRL-001"
+                },
+                "last_service_date": {
+                    "type": "string",
+                    "format": "YYYY-MM-DD",
+                    "required": true,
+                    "description": "Date of last maintenance service",
+                    "example": "2024-09-15"
+                },
+                "fitness_cert_valid_from": {
+                    "type": "string",
+                    "format": "YYYY-MM-DD",
+                    "required": true,
+                    "description": "Fitness certificate validity start date",
+                    "example": "2024-09-01"
+                },
+                "fitness_cert_valid_to": {
+                    "type": "string",
+                    "format": "YYYY-MM-DD",
+                    "required": true,
+                    "description": "Fitness certificate expiry date",
+                    "example": "2024-11-30"
+                },
+                "jobcard_status": {
+                    "type": "string",
+                    "enum": [
+                        "NONE",
+                        "OPEN",
+                        "CLOSED",
+                        "CRITICAL_OPEN",
+                        "PENDING"
+                    ],
+                    "required": true,
+                    "description": "Current job card status from Maximo",
+                    "example": "OPEN"
+                },
+                "mileage_since_overhaul": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 150000,
+                    "required": true,
+                    "description": "Kilometers since last major overhaul",
+                    "example": 45000
+                },
+                "iot_sensor_flags": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Comma-separated IoT sensor alerts",
+                    "example": "NORMAL, BRAKE_TEMP_HIGH",
+                    "default": "NORMAL"
+                },
+                "crew_available": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Whether crew is available for this train",
+                    "example": true,
+                    "default": true
+                },
+                "branding_exposure_hours": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 24,
+                    "required": false,
+                    "description": "Required branding exposure hours per day",
+                    "example": 12.5,
+                    "default": 0
+                },
+                "stabling_bay": {
+                    "type": "string",
+                    "pattern": "^BAY-\\d{2}$",
+                    "required": false,
+                    "description": "Current stabling bay assignment",
+                    "example": "BAY-05"
+                },
+                "cleaning_slot": {
+                    "type": "string",
+                    "enum": [
+                        "NONE",
+                        "SCHEDULED",
+                        "IN_PROGRESS",
+                        "REQUIRED"
+                    ],
+                    "required": false,
+                    "description": "Cleaning/detailing slot status",
+                    "example": "SCHEDULED",
+                    "default": "NONE"
+                }
+            }
+        },
+        "optimization_request": {
+            "description": "Request structure for train optimization",
+            "fields": {
+                "trains": {
+                    "type": "array",
+                    "items": "$ref:train_status",
+                    "required": true,
+                    "description": "Array of train status objects"
+                },
+                "target_date": {
+                    "type": "string",
+                    "format": "YYYY-MM-DD",
+                    "required": true,
+                    "description": "Date for which optimization is requested",
+                    "example": "2024-10-02"
+                },
+                "constraints": {
+                    "type": "object",
+                    "required": true,
+                    "description": "Operational constraints for optimization",
+                    "properties": {
+                        "min_service_trains": {
+                            "type": "integer",
+                            "minimum": 15,
+                            "maximum": 25,
+                            "default": 18,
+                            "description": "Minimum trains required for service"
+                        },
+                        "maintenance_bays": {
+                            "type": "integer",
+                            "minimum": 2,
+                            "maximum": 6,
+                            "default": 4,
+                            "description": "Available maintenance bays"
+                        },
+                        "cleaning_bays": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 4,
+                            "default": 3,
+                            "description": "Available cleaning bays"
+                        },
+                        "available_crews": {
+                            "type": "integer",
+                            "minimum": 15,
+                            "maximum": 25,
+                            "default": 22,
+                            "description": "Available train crews"
+                        }
+                    }
+                },
+                "objectives": {
+                    "type": "object",
+                    "required": false,
+                    "description": "Optimization objective weights",
+                    "properties": {
+                        "service_weight": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "default": 0.5,
+                            "description": "Weight for service readiness objective"
+                        },
+                        "mileage_weight": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "default": 0.3,
+                            "description": "Weight for mileage balancing objective"
+                        },
+                        "branding_weight": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "default": 0.2,
+                            "description": "Weight for branding compliance objective"
+                        }
+                    }
+                }
+            }
+        },
+        "optimization_result": {
+            "description": "Result structure from optimization",
+            "fields": {
+                "optimization_id": {
+                    "type": "string",
+                    "pattern": "^opt_\\d{8}_\\d{6}$",
+                    "required": true,
+                    "description": "Unique optimization identifier",
+                    "example": "opt_20241001_190300"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "ISO8601",
+                    "required": true,
+                    "description": "Optimization completion timestamp",
+                    "example": "2024-10-01T19:03:00Z"
+                },
+                "assignments": {
+                    "type": "array",
+                    "items": "$ref:train_assignment",
+                    "required": true,
+                    "description": "Optimized train assignments"
+                },
+                "objectives_achieved": {
+                    "type": "object",
+                    "required": true,
+                    "description": "Achieved objective values",
+                    "properties": {
+                        "service_readiness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100,
+                            "description": "Service readiness score (0-100)"
+                        },
+                        "mileage_variance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Mileage distribution variance (lower is better)"
+                        },
+                        "branding_compliance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100,
+                            "description": "Branding compliance score (0-100)"
+                        },
+                        "total_service_trains": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 25,
+                            "description": "Number of trains assigned to service"
+                        },
+                        "total_service_hours": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Total planned service hours"
+                        }
+                    }
+                },
+                "conflicts": {
+                    "type": "array",
+                    "items": "$ref:constraint_conflict",
+                    "required": true,
+                    "description": "Any constraint conflicts detected"
+                },
+                "explanations": {
+                    "type": "object",
+                    "required": true,
+                    "description": "Human-readable explanations",
+                    "properties": {
+                        "executive_summary": {
+                            "type": "string",
+                            "description": "High-level optimization summary"
+                        },
+                        "individual_assignments": {
+                            "type": "object",
+                            "description": "Per-train assignment explanations"
+                        },
+                        "optimization_rationale": {
+                            "type": "string",
+                            "description": "Optimization approach explanation"
+                        }
+                    }
+                }
+            }
+        },
+        "train_assignment": {
+            "description": "Individual train assignment result",
+            "fields": {
+                "train_id": {
+                    "type": "string",
+                    "format": "KMRL-XXX",
+                    "required": true,
+                    "description": "Train identifier"
+                },
+                "assignment": {
+                    "type": "string",
+                    "enum": [
+                        "SERVICE",
+                        "STANDBY",
+                        "MAINTENANCE"
+                    ],
+                    "required": true,
+                    "description": "Assignment type"
+                },
+                "service_hours": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 20,
+                    "required": true,
+                    "description": "Planned service hours (0 if not in service)"
+                },
+                "bay_assignment": {
+                    "type": "string",
+                    "pattern": "^BAY-\\d{2}$",
+                    "required": true,
+                    "description": "Assigned depot bay"
+                },
+                "priority_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "required": true,
+                    "description": "Assignment priority score"
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "required": true,
+                    "description": "Assignment confidence level"
+                }
+            }
+        },
+        "constraint_conflict": {
+            "description": "Constraint conflict information",
+            "fields": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "capacity_shortage",
+                        "maintenance_overflow",
+                        "crew_shortage",
+                        "bay_unavailable"
+                    ],
+                    "required": true,
+                    "description": "Type of constraint conflict"
+                },
+                "message": {
+                    "type": "string",
+                    "required": true,
+                    "description": "Human-readable conflict description"
+                },
+                "severity": {
+                    "type": "string",
+                    "enum": [
+                        "low",
+                        "medium",
+                        "high",
+                        "critical"
+                    ],
+                    "required": true,
+                    "description": "Conflict severity level"
+                },
+                "affected_trains": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "required": false,
+                    "description": "List of affected train IDs"
+                },
+                "remediation_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "required": false,
+                    "description": "Suggested remediation actions"
+                }
+            }
+        },
+        "historical_performance": {
+            "description": "Historical train performance record",
+            "fields": {
+                "train_id": {
+                    "type": "string",
+                    "format": "KMRL-XXX",
+                    "required": true,
+                    "description": "Train identifier"
+                },
+                "date": {
+                    "type": "string",
+                    "format": "YYYY-MM-DD",
+                    "required": true,
+                    "description": "Performance record date"
+                },
+                "assignment": {
+                    "type": "string",
+                    "enum": [
+                        "SERVICE",
+                        "STANDBY",
+                        "MAINTENANCE"
+                    ],
+                    "required": true,
+                    "description": "Actual assignment on this date"
+                },
+                "actual_delay_minutes": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "required": true,
+                    "description": "Total delay in minutes"
+                },
+                "planned_service_hours": {
+                    "type": "number",
+                    "minimum": 0,
+                    "required": true,
+                    "description": "Originally planned service hours"
+                },
+                "actual_service_hours": {
+                    "type": "number",
+                    "minimum": 0,
+                    "required": true,
+                    "description": "Actual service hours achieved"
+                },
+                "maintenance_performed": {
+                    "type": "boolean",
+                    "required": true,
+                    "description": "Whether maintenance was performed"
+                },
+                "issues_reported": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Comma-separated list of reported issues",
+                    "default": "None"
+                }
+            }
+        },
+        "what_if_request": {
+            "description": "What-if simulation request",
+            "fields": {
+                "base_optimization_id": {
+                    "type": "string",
+                    "pattern": "^opt_\\d{8}_\\d{6}$",
+                    "required": true,
+                    "description": "Base optimization to modify"
+                },
+                "modifications": {
+                    "type": "object",
+                    "required": true,
+                    "description": "Modifications to apply",
+                    "properties": {
+                        "force_maintenance": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Train IDs to force into maintenance"
+                        },
+                        "override_crew_availability": {
+                            "type": "object",
+                            "description": "Override crew availability for specific trains"
+                        },
+                        "adjust_constraints": {
+                            "type": "object",
+                            "description": "Modify global constraints"
+                        }
+                    }
+                }
+            }
+        },
+        "ml_prediction": {
+            "description": "Machine learning prediction result",
+            "fields": {
+                "train_id": {
+                    "type": "string",
+                    "format": "KMRL-XXX",
+                    "required": true,
+                    "description": "Train identifier"
+                },
+                "delay_risk_probability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "required": true,
+                    "description": "Probability of delay (0-1)"
+                },
+                "maintenance_urgency_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "required": true,
+                    "description": "Maintenance urgency score (0-100)"
+                },
+                "confidence_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "required": true,
+                    "description": "Prediction confidence level"
+                },
+                "key_risk_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "required": true,
+                    "description": "List of identified risk factors"
+                }
+            }
+        }
+    },
+    "validation_rules": {
+        "business_rules": [
+            {
+                "rule": "minimum_service_capacity",
+                "description": "At least 18 trains must be available for service",
+                "validation": "count(assignments[assignment='SERVICE']) >= 18"
+            },
+            {
+                "rule": "maintenance_bay_capacity",
+                "description": "Cannot exceed available maintenance bays",
+                "validation": "count(assignments[assignment='MAINTENANCE']) <= constraints.maintenance_bays"
+            },
+            {
+                "rule": "crew_availability",
+                "description": "Cannot exceed available crew count",
+                "validation": "count(assignments[assignment='SERVICE' AND crew_available=true]) <= constraints.available_crews"
+            },
+            {
+                "rule": "fitness_certificate_validity",
+                "description": "Trains in service must have valid fitness certificates",
+                "validation": "all(assignments[assignment='SERVICE'].fitness_cert_valid_to >= target_date)"
+            },
+            {
+                "rule": "critical_maintenance_exclusion",
+                "description": "Trains with critical job cards cannot be assigned to service",
+                "validation": "all(assignments[assignment='SERVICE'].jobcard_status != 'CRITICAL_OPEN')"
+            }
+        ],
+        "data_quality_checks": [
+            {
+                "check": "train_id_uniqueness",
+                "description": "Train IDs must be unique within dataset",
+                "validation": "unique(trains.train_id)"
+            },
+            {
+                "check": "date_format_consistency",
+                "description": "All dates must use YYYY-MM-DD format",
+                "validation": "matches_pattern(date_fields, '^\\d{4}-\\d{2}-\\d{2}$')"
+            },
+            {
+                "check": "mileage_reasonableness",
+                "description": "Mileage values should be within reasonable ranges",
+                "validation": "all(trains.mileage_since_overhaul >= 0 AND trains.mileage_since_overhaul <= 150000)"
+            },
+            {
+                "check": "service_hours_bounds",
+                "description": "Service hours should be between 0 and 20 per day",
+                "validation": "all(assignments.service_hours >= 0 AND assignments.service_hours <= 20)"
+            }
+        ]
+    },
+    "api_endpoints": {
+        "base_url": "http://localhost:8000/api/v1",
+        "endpoints": [
+            {
+                "path": "/health",
+                "method": "GET",
+                "description": "System health check",
+                "response_schema": "health_status"
+            },
+            {
+                "path": "/ingest",
+                "method": "POST",
+                "description": "Ingest train operational data",
+                "request_content_types": [
+                    "multipart/form-data",
+                    "application/json"
+                ],
+                "response_schema": "ingestion_result"
+            },
+            {
+                "path": "/optimize",
+                "method": "POST",
+                "description": "Run train optimization",
+                "request_schema": "optimization_request",
+                "response_schema": "optimization_result"
+            },
+            {
+                "path": "/simulate",
+                "method": "POST",
+                "description": "Run what-if simulation",
+                "request_schema": "what_if_request",
+                "response_schema": "optimization_result"
+            },
+            {
+                "path": "/predict",
+                "method": "POST",
+                "description": "Generate ML predictions",
+                "request_schema": "train_status[]",
+                "response_schema": "ml_prediction[]"
+            },
+            {
+                "path": "/optimizations",
+                "method": "GET",
+                "description": "Get optimization history",
+                "query_parameters": {
+                    "limit": {
+                        "type": "integer",
+                        "default": 10,
+                        "maximum": 100
+                    }
+                },
+                "response_schema": "optimization_result[]"
+            },
+            {
+                "path": "/export/{optimization_id}",
+                "method": "GET",
+                "description": "Export optimization results",
+                "path_parameters": {
+                    "optimization_id": {
+                        "type": "string",
+                        "pattern": "^opt_\\d{8}_\\d{6}$"
+                    }
+                },
+                "query_parameters": {
+                    "format": {
+                        "type": "string",
+                        "enum": [
+                            "json",
+                            "csv",
+                            "pdf"
+                        ],
+                        "default": "json"
+                    }
+                }
+            }
+        ]
+    }
+}

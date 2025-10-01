@@ -1,0 +1,28 @@
+job_card_id,train_id,job_type,priority,status,estimated_hours,created_date,due_date,assigned_technician,description
+JC001000,KMRL-001,Brake System Inspection,HIGH,CLOSED,7.38,2025-09-13,2025-09-20,TECH-004,Brake System Inspection for KMRL-001 - Priority: HIGH
+JC001001,KMRL-001,Communication System Test,LOW,IN_PROGRESS,2.05,2025-09-07,2025-09-14,TECH-017,Communication System Test for KMRL-001 - Priority: LOW
+JC001002,KMRL-004,Safety System Verification,MEDIUM,OPEN,2.25,2025-09-21,2025-09-28,TECH-006,Safety System Verification for KMRL-004 - Priority: MEDIUM
+JC001003,KMRL-007,Tire Inspection,MEDIUM,CLOSED,5.45,2025-09-01,2025-09-08,TECH-007,Tire Inspection for KMRL-007 - Priority: MEDIUM
+JC001004,KMRL-007,Tire Inspection,MEDIUM,OPEN,4.66,2025-09-03,2025-09-10,TECH-017,Tire Inspection for KMRL-007 - Priority: MEDIUM
+JC001005,KMRL-009,Cleaning and Sanitization,MEDIUM,CLOSED,5.17,2025-09-27,2025-10-04,TECH-014,Cleaning and Sanitization for KMRL-009 - Priority: MEDIUM
+JC001006,KMRL-010,Safety System Verification,LOW,IN_PROGRESS,0.88,2025-09-18,2025-09-25,TECH-012,Safety System Verification for KMRL-010 - Priority: LOW
+JC001007,KMRL-010,Cleaning and Sanitization,LOW,CLOSED,5.28,2025-09-11,2025-09-18,TECH-002,Cleaning and Sanitization for KMRL-010 - Priority: LOW
+JC001008,KMRL-011,Tire Inspection,LOW,OPEN,3.86,2025-09-21,2025-09-28,TECH-009,Tire Inspection for KMRL-011 - Priority: LOW
+JC001009,KMRL-011,Door Mechanism Service,HIGH,IN_PROGRESS,3.22,2025-09-24,2025-10-01,TECH-014,Door Mechanism Service for KMRL-011 - Priority: HIGH
+JC001010,KMRL-012,HVAC Maintenance,LOW,IN_PROGRESS,7.18,2025-09-18,2025-09-25,TECH-012,HVAC Maintenance for KMRL-012 - Priority: LOW
+JC001011,KMRL-013,Brake System Inspection,MEDIUM,OPEN,4.96,2025-09-23,2025-09-30,TECH-006,Brake System Inspection for KMRL-013 - Priority: MEDIUM
+JC001012,KMRL-013,Communication System Test,CRITICAL,SCHEDULED,5.35,2025-09-12,2025-09-19,TECH-004,Communication System Test for KMRL-013 - Priority: CRITICAL
+JC001013,KMRL-013,Door Mechanism Service,LOW,SCHEDULED,5.7,2025-09-12,2025-09-19,TECH-010,Door Mechanism Service for KMRL-013 - Priority: LOW
+JC001014,KMRL-015,Software Update,MEDIUM,CLOSED,6.42,2025-09-28,2025-10-05,TECH-001,Software Update for KMRL-015 - Priority: MEDIUM
+JC001015,KMRL-016,Safety System Verification,HIGH,OPEN,6.39,2025-09-28,2025-10-05,TECH-003,Safety System Verification for KMRL-016 - Priority: HIGH
+JC001016,KMRL-017,Communication System Test,MEDIUM,CLOSED,3.58,2025-09-14,2025-09-21,TECH-014,Communication System Test for KMRL-017 - Priority: MEDIUM
+JC001017,KMRL-017,HVAC Maintenance,LOW,OPEN,4.78,2025-09-09,2025-09-16,TECH-019,HVAC Maintenance for KMRL-017 - Priority: LOW
+JC001018,KMRL-019,Electrical System Check,HIGH,SCHEDULED,4.91,2025-09-06,2025-09-13,TECH-019,Electrical System Check for KMRL-019 - Priority: HIGH
+JC001019,KMRL-020,Safety System Verification,LOW,OPEN,2.42,2025-09-05,2025-09-12,TECH-003,Safety System Verification for KMRL-020 - Priority: LOW
+JC001020,KMRL-021,Brake System Inspection,MEDIUM,SCHEDULED,2.95,2025-09-10,2025-09-17,TECH-009,Brake System Inspection for KMRL-021 - Priority: MEDIUM
+JC001021,KMRL-021,Tire Inspection,LOW,OPEN,7.53,2025-09-16,2025-09-23,TECH-011,Tire Inspection for KMRL-021 - Priority: LOW
+JC001022,KMRL-021,Communication System Test,CRITICAL,OPEN,6.58,2025-09-01,2025-09-08,TECH-005,Communication System Test for KMRL-021 - Priority: CRITICAL
+JC001023,KMRL-022,Software Update,LOW,CLOSED,3.11,2025-09-27,2025-10-04,TECH-020,Software Update for KMRL-022 - Priority: LOW
+JC001024,KMRL-023,HVAC Maintenance,HIGH,OPEN,2.3,2025-09-26,2025-10-03,TECH-004,HVAC Maintenance for KMRL-023 - Priority: HIGH
+JC001025,KMRL-023,Brake System Inspection,MEDIUM,OPEN,4.38,2025-09-14,2025-09-21,TECH-020,Brake System Inspection for KMRL-023 - Priority: MEDIUM
+JC001026,KMRL-024,Cleaning and Sanitization,HIGH,IN_PROGRESS,1.52,2025-09-08,2025-09-15,TECH-011,Cleaning and Sanitization for KMRL-024 - Priority: HIGH
