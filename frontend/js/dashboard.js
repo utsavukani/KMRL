@@ -17,6 +17,8 @@ class KMRLDashboard {
         this.optimizationResults = null;
         this.performanceChart = null;
 
+        this.theme = null;
+
         this.initialize();
     }
 
@@ -33,6 +35,9 @@ class KMRLDashboard {
 
         // Update slider value displays
         this.updateSliderDisplays();
+
+        // Setup theme toggle (dark / light)
+        this.setupThemeToggle();
     }
 
     setupEventListeners() {
@@ -685,6 +690,72 @@ class KMRLDashboard {
         this.populateTrainSelectors();
         this.updateKPICards();
         this.renderOptimizationHistory(this.generateDemoHistory());
+    }
+
+    // -----------------------
+    // Theme toggle (dark/white)
+    // -----------------------
+    setupThemeToggle() {
+        // Read saved preference or default to system preference
+        const saved = localStorage.getItem('kmrl_theme');
+        if (saved === 'dark' || saved === 'light') {
+            this.theme = saved;
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            this.theme = 'dark';
+        } else {
+            this.theme = 'light';
+        }
+
+        this.applyTheme(this.theme);
+
+        // Create a compact theme toggle button and append to body (non-intrusive)
+        if (!document.getElementById('kmrl-theme-toggle')) {
+            const btn = document.createElement('button');
+            btn.id = 'kmrl-theme-toggle';
+            btn.setAttribute('aria-label', 'Toggle theme');
+            btn.title = 'Toggle dark / light mode';
+            btn.style.position = 'fixed';
+            btn.style.right = '12px';
+            btn.style.bottom = '12px';
+            btn.style.zIndex = '9999';
+            btn.style.padding = '8px 10px';
+            btn.style.borderRadius = '8px';
+            btn.style.border = 'none';
+            btn.style.cursor = 'pointer';
+            btn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.12)';
+            btn.style.fontSize = '16px';
+            btn.style.lineHeight = '1';
+            btn.style.background = this.theme === 'dark' ? '#111827' : '#ffffff';
+            btn.style.color = this.theme === 'dark' ? '#f9fafb' : '#111827';
+            btn.innerText = this.theme === 'dark' ? '☀️' : '🌙';
+
+            btn.addEventListener('click', () => this.toggleTheme());
+
+            document.body.appendChild(btn);
+        }
+    }
+
+    applyTheme(theme) {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+        try { localStorage.setItem('kmrl_theme', theme); } catch (e) { /* ignore */ }
+
+        const btn = document.getElementById('kmrl-theme-toggle');
+        if (btn) {
+            btn.style.background = theme === 'dark' ? '#111827' : '#ffffff';
+            btn.style.color = theme === 'dark' ? '#f9fafb' : '#111827';
+            btn.innerText = theme === 'dark' ? '☀️' : '🌙';
+        }
+    }
+
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        this.applyTheme(this.theme);
     }
 }
 

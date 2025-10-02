@@ -19,6 +19,7 @@ import asyncio
 import uvicorn
 import json
 import pandas as pd
+import io
 from datetime import datetime, timedelta
 import logging
 
